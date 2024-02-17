@@ -1,0 +1,5 @@
+### [M-01] Error in Accumulating Holder's Fees on Staked EUROs, Causing Misrepresentation of Funds
+
+**Description**
+
+The [`LiquidationPool::position()`](https://github.com/Cyfrin/2023-12-the-standard/blob/c12272f2eec533019f2d255ab690f6892027f112/contracts/LiquidationPool.sol#L83) function provides a snapshot of staked `EUROs` and `TST` along with accumulated fees and rewards. However, a flaw exists in the calculation process within this function. Specifically, at [line 88](https://github.com/Cyfrin/2023-12-the-standard/blob/c12272f2eec533019f2d255ab690f6892027f112/contracts/LiquidationPool.sol#L88), the accrued fees in `EUROs` for holders based on their staked `TST` are miscalculated. The issue arises from considering the entire balance of the [`LiquidationPoolManager`](https://github.com/Cyfrin/2023-12-the-standard/blob/c12272f2eec533019f2d255ab690f6892027f112/contracts/LiquidationPoolManager.sol#L11) rather than deducting the [`LiquidationPoolManager::poolFeePercentage`](https://github.com/Cyfrin/2023-12-the-standard/blob/c12272f2eec533019f2d255ab690f6892027f112/contracts/LiquidationPoolManager.sol#L20) and allocating it to the protocol.
